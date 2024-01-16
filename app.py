@@ -516,7 +516,7 @@ uploaded_file = st.file_uploader('Загрузите текст', type='docx')
 
 with st.form('myform', clear_on_submit=False):
     num_employees = st.radio('Выберите количество сотрудников', options=list(range(1, 6)))
-    file_name = st.text_input('Введите название файла. Формат: фамилия - короткое описание - название')
+    name_file = st.text_input('Введите название файла. Формат: фамилия - короткое описание - название')
     project_name = st.text_input('Введите название проекта')
 
     selected_num_employees = st.session_state.get('selected_num_employees', 1)
@@ -548,13 +548,13 @@ with st.form('myform', clear_on_submit=False):
     # Проверяем, была ли форма отправлена
     submitted = st.form_submit_button('Сгенерировать документ')
 
-    if submitted and not (uploaded_file and file_name and all_fields_filled):
+    if submitted and not (uploaded_file and name_file and all_fields_filled):
         unfilled_fields = []
 
         if not uploaded_file:
             unfilled_fields.append("Файл не загружен.")
 
-        if not file_name:
+        if not name_file:
             unfilled_fields.append("Введите название файла.")
 
         for i in range(selected_num_employees):
@@ -591,6 +591,6 @@ if st.session_state.get('form_processed'):
         st.download_button(
             label="Скачать документ",
             data=temp_file,
-            file_name=f"{file_name}.docx",
+            file_name=f"{name_file}.docx",
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         )
